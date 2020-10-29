@@ -22,6 +22,16 @@ function getTopTracks(artist, cb) {
     })
 }
 
+/**
+ * @param {String} artist Artist name
+ * @param {function(Error, Array)} cb Callback receives an array of Artist objects with given name or 
+ * an Error if there is no Artist with given name.
+ */
+function searchArtist(artist, cb) {
+    // http://ws.audioscrobbler.com/2.0/?method=artist.search&artist=kjahkdfhalf&api_key=79b2506be8ce86d852882e1774f1f2e8&format=json
+}
+
 module.exports = {
-    'getTopTracks': getTopTracks
+    getTopTracks,
+    searchArtist
 }
