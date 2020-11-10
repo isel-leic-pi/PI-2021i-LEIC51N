@@ -18,10 +18,22 @@ function getUser(username, cb) {
         if(err) return cb(err)
         const arr = JSON.parse(buffer)
         const users = arr.filter(user => user.username == username)
-        if(users.length == 0) return cb(new Error('There is no user with username ' + username))
+        if(users.length == 0) return cb(null, null)
         cb(null, users[0])
     })
 }
+
+/**
+ * @param {function(Error, Array)} cb 
+ */
+function getUsers(cb) {
+    fs.readFile(PATH_USERS, (err, buffer) => {
+        if(err) return cb(err)
+        const arr = JSON.parse(buffer)
+        cb(null, arr)
+    })
+}
+
 
 /**
  * Add a new User object with given username if it does not exist yet.
@@ -52,6 +64,7 @@ function addArtist(username, artist, cb) {
 
 module.exports = {
     getUser,
+    getUsers,
     addArtist,
     addUser
 }
