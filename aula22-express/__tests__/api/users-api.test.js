@@ -3,10 +3,17 @@
 const frisby = require('frisby')
 const fork = require('child_process').fork
 
-const server = fork('./index', ['./__tests__/mocks/users.json'])
+let server
 
+// eslint-disable-next-line no-undef
 afterAll(() => {
     server.kill()
+})
+
+// eslint-disable-next-line no-undef
+beforeAll(done => {
+    server = fork('./index', ['./__tests__/mocks/users.json'])
+    done()
 })
 
 // eslint-disable-next-line no-undef
