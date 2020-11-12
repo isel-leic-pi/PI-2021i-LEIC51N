@@ -7,6 +7,9 @@ const VINYL_USERS = '/vinyl/users'
 const VINYL_USER_DETAILS = /\/vinyl\/users\/(.*)/
 const VINYL_USER_TOPTRACKS = /\/vinyl\/users\/(.*)\/toptracks/
 
+if(process.argv.length > 2 )
+    require('./lib/repo/users').init(process.argv[2])
+
 const server = http.createServer((req, resp) => {
     let path
     // From the information in req (IncomingMessage) such as url

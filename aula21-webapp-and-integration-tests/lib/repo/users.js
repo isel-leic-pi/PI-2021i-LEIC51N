@@ -1,7 +1,11 @@
 'use strict'
 
 const fs = require('fs')
-const PATH_USERS = './data/users.json'
+let pathUsers = './data/users.json'
+
+function init(path) {
+    if(path) pathUsers = path
+}
 
 /**
  * @typedef User
@@ -14,7 +18,7 @@ const PATH_USERS = './data/users.json'
  * @param {function(Error, User)} cb 
  */
 function getUser(username, cb) {
-    fs.readFile(PATH_USERS, (err, buffer) => {
+    fs.readFile(pathUsers, (err, buffer) => {
         if(err) return cb(err)
         const arr = JSON.parse(buffer)
         const users = arr.filter(user => user.username == username)
@@ -27,7 +31,7 @@ function getUser(username, cb) {
  * @param {function(Error, Array)} cb 
  */
 function getUsers(cb) {
-    fs.readFile(PATH_USERS, (err, buffer) => {
+    fs.readFile(pathUsers, (err, buffer) => {
         if(err) return cb(err)
         const arr = JSON.parse(buffer)
         cb(null, arr)
@@ -63,6 +67,7 @@ function addArtist(username, artist, cb) {
 }
 
 module.exports = {
+    init,
     getUser,
     getUsers,
     addArtist,
