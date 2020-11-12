@@ -28,11 +28,16 @@ function getUserDetails(username, cb) {
 
 }
 
-function getUsers(cb) {
+function getUsers(req, cb) {
     users.getUsers( (err, users) => {
         if(err) return cb({
             'status': 500,
             'msg': err.toString()
+        })
+        const basePath = req.headers.host        
+        users.forEach(user => {
+            user.details = 'http://' + basePath + '/vinyl/users/' + user.username,
+            user.toptracks = 'http://' + basePath + '/vinyl/users/' + user.username + '/toptracks'
         })
         cb(null, users)
     })

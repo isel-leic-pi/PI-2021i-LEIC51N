@@ -18,7 +18,7 @@ const server = http.createServer((req, resp) => {
         routes.getUserDetails(path[1], (err, user) => send(resp, err, user))
     }
     else if(req.url.match(VINYL_USERS)){
-        routes.getUsers((err, user) => send(resp, err, user))
+        routes.getUsers(req, (err, user) => send(resp, err, user))
     }
     else {
         resp.writeHead(404, 'Resource not found!!!!!')
