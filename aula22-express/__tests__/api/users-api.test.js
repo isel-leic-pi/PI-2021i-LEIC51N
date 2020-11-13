@@ -13,7 +13,10 @@ afterAll(() => {
 // eslint-disable-next-line no-undef
 beforeAll(done => {
     server = fork('./index', ['./__tests__/mocks/users.json'])
-    done()
+    server.on('message', msg => {
+        if(msg.running)
+            done()
+    })
 })
 
 // eslint-disable-next-line no-undef
