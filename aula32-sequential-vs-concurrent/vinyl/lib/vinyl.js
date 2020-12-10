@@ -39,14 +39,28 @@ function getTopTracks(username, limit, cb) {
  * @param {*} cb 
  */
 function addArtist(username, artist, cb) {
-    users.getUser(username, (err, user) => {
-        if(err) return cb(err)
-        lastfm.searchArtist(artist, (err, arr) => {
-            if(err) return cb(err)
-            if(arr.length == 0) return cb(Error('There is no artist with name ' + artist))
-            users.addArtist(username, arr[0].name, cb)
-        })
+    const task1 = cb => users.getUser(username, cb)
+    const task2 = cb => lastfm.searchArtist(artist, cb)
+    let failed, user, arr
+    task1((err, u) => {
+        if(failed) return
+        if(err) return insertArtistInUser(failed = err)
+        user = u
+        if(arr) insertArtistInUser(null, u, arr)
     })
+    task2((err, a) => {
+        if(failed) return
+        if(err) return insertArtistInUser(failed = err)
+        arr = a
+        if(user) insertArtistInUser(null, user, a)
+    })
+
+    // Task3: insert artist in user's favorites artists
+    const insertArtistInUser = (err, user, arr) => {
+        if(err) return cb(err)
+        if(arr.length == 0) return cb(Error('There is no artist with name ' + artist))
+        users.addArtist(user.username, arr[0].name, cb) 
+    }
 }
 
 module.exports = {
