@@ -52,28 +52,23 @@ class Bundles {
      * @param {function(Error)} cb 
      */
     addBook(id, pgid, cb){
-        this.get(id, (err, bundle) => { // Get the Bundle
+        this.get(id, (err, bundle) => { // Task 1: Get the Bundle
             if(err) 
                 return cb(err)
             const url = `${this.urlBooks}${pgid}`
-            urllib.request(url, (err, body, res) => { // Check the book
+            urllib.request(url, (err, body, res) => { // Task 2: Check the book
                 if(!checkError(200, cb, err, res, body)) {
                     const book = JSON.parse(body)._source
                     const idx = bundle.books.findIndex(b => b.id == pgid)
                     if(idx >= 0) 
                         return cb(null)  // If the book already exists in bundle do nothing
+                    // Task 3: insert book into bundle
                     bundle.books.push({
                         'id': pgid,
                         'title': book.title
                     })
-                    const options = {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        content: JSON.stringify(bundle)
-                    }
-                    urllib.request(`${this.urlBundles}${id}`, options, (err, body, res) => {
+                    const opts = options('PUT', bundle)
+                    urllib.request(`${this.urlBundles}${id}`, opts, (err, body, res) => {
                         if(!checkError(200, cb, err, res, body)) {
                             cb(null, JSON.parse(body))
                         }
@@ -81,6 +76,16 @@ class Bundles {
                 }
             })
         })
+    }
+}
+
+function options(method, content) {
+    return {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        content: JSON.stringify(content)
     }
 }
 
