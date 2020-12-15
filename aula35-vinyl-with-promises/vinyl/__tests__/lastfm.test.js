@@ -2,10 +2,12 @@
 'use strict'
 
 const lastfm = require('./../lib/lastfm')
-const urlib = require('urllib')
-const fs = require('fs')
+const fs = require('fs').promises
 
-jest.mock('urllib')
+jest.mock('node-fetch')
+
+const fetch = require('node-fetch')
+const Response = jest.requireActual('node-fetch').Response
 
 const cure = [
     'Friday I\'m in Love',
@@ -13,16 +15,13 @@ const cure = [
     'Boys Don\'t Cry'
 ]
 
-test('Test lastfm module getUser successfuly', done => {
-    urlib.request.mockImplementationOnce((url, cb) => {
-        fs.readFile('./__tests__/mocks/toptracks-cure.json', cb)
-    })
-
-    lastfm.getTopTracks('cure', (err, tracks) => {
-        expect(err).toBeFalsy()
-        cure.forEach((t, i) => {
-            expect(t).toBe(tracks[i])
-        })
-        done()
-    })
+test('Test lastfm module getUser successfuly', () => {
+    fetch.mockReturnValue(fs
+        .readFile('./__tests__/mocks/toptracks-cure.json') // Promise<Buffer>
+        .then(buffer => new Response(buffer))
+    )
+    return lastfm
+        .getTopTracks('cure')
+        .then(tracks => cure.forEach((t, i) => expect(t).toBe(tracks[i])))
+        .catch(() => fail())
 })

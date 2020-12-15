@@ -14,12 +14,10 @@ function delay(ms, success) {
  * @param {String} url 
  * @returns {Promise}
  */
-function checkStatsCodeIsOk(url) {
-    return fetch(url)
-        .then(res => {
-            if(res.status >= 200 && res.status < 300) return res.status
-            else throw new Error('Status not OK: ' + res.status)
-        })
+async function checkStatsCodeIsOk(url) {
+    const res = await  fetch(url)
+    if(res.status >= 200 && res.status < 300) return res.status
+    else throw new Error('Status not OK: ' + res.status)
 }
 
 pipeline(1000, 'https://www.npmjs.com/package/node-fetch')

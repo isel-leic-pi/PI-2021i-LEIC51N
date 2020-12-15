@@ -2,33 +2,22 @@
 
 const lastfm = require('./lastfm')
 const users = require('./users').init()
-const asyncutils = require('./../../asyncutils')
-
 
 /**
  * Retrieves the top tracks (limit) of the favourite artists
  * for the given username.
- * Notice it returns a single Array flatten with thos tracks.
+ * Notice it returns a single Array flatten with those tracks.
  * @param {String} username 
- * @param {function(Error, Array)} cb 
+ * @returns {Promise<Array<Track>>}
  */
-function getTopTracks(username, limit, cb) {
-    users.getUser(username, (err, user) => {
-        if(err) return cb(err)
-        const arr = []
-        let count = 0
-        user.artists.forEach(artist => 
-            lastfm.getTopTracks(artist, (err, tracks) => {
-                if(err) return cb(err)
-                count++
-                tracks
-                    .slice(0, limit)
-                    .forEach(t => arr.push(t))
-                if(count == user.artists.length)
-                    cb(null, arr)
-            })
-        )
-    })
+function getTopTracks(username, limit) {
+    return users
+        .getUser(username)                                                   // Promise<User>
+        .then(user => user.artists)                                          // Promise<Array<Artist>
+        .then(artists => artists.map(artist => lastfm.getTopTracks(artist))) // Promise<Array<Promise<Array<String>>>>
+        .then(arr => Promise.all(arr))                                       // Promise<Array<Array<String>>>
+        .then(tracks => tracks.map(arr => arr.slice(0, limit)))              // Promise<Array<Array<String>>>
+        .then(tracks => tracks.flat())                                       // Promise<Array<String>>>
 }
 
 /**
@@ -38,17 +27,16 @@ function getTopTracks(username, limit, cb) {
  * 
  * @param {*} username 
  * @param {*} artist 
- * @param {*} cb 
  */
-function addArtist(username, artist, cb) {
-    const task1 = cb => users.getUser(username, cb)
-    const task2 = cb => lastfm.searchArtist(artist, cb)
-    asyncutils.parallel([task1, task2], (err, res) => {
-        if(err) return cb(err)
-        const [user, arr] = res
-        if(arr.length == 0) return cb(Error('There is no artist with name ' + artist))
-        users.addArtist(user.username, arr[0].name, cb) 
-    })
+function addArtist(username, artist) {
+    const task1 = users.getUser(username)
+    const task2 = lastfm.searchArtist(artist)
+    return Promise
+        .all([task1, task2])
+        .then(([user, arr]) => {
+            if(arr.length == 0) throw Error('There is no artist with name ' + artist)
+            return users.addArtist(user.username, arr[0].name)
+        })
 }
 
 module.exports = {
