@@ -1,0 +1,15 @@
+<h1>List of Users</h1>
+<table class="table">
+    <tr>
+        <th>Username</th>
+        <th>Details</th>
+        <th>TopTracks</th>
+    </tr>
+    {{#each users}}
+        <tr>
+            <td>{{username}}</td>
+            <td><a href="{{details}}">details</a></td>
+            <td><a href="{{toptracks}}">Top Tracks</a></td>
+        </tr>
+    {{/each}}
+</table>

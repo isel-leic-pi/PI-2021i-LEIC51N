@@ -2,6 +2,7 @@
 
 const express = require('express')
 const routesApi = require('./routes/routes-vinyl-api')
+const routesWeb = require('./routes/routes-vinyl-web')
 const sitemap = require('express-sitemap-html')
 let server
 
@@ -9,10 +10,13 @@ function init(usersPath, done) {
     if(usersPath)
         require('./repo/users').init(usersPath)
     const app = express()
+    app.set('view engine', 'hbs')
+    app.set('views', './lib/views')
     /**
      * ROUTES
      */
     app.use('/api', routesApi)
+    app.use(routesWeb)
     app.get('/sitemap', sitemap(app))
     /**
      * ERROR HAndler
