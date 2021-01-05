@@ -1,0 +1,6 @@
+<h1>USER: {{username}}</h1>
+<ul>
+    {{#each artists}} <!-- artists is an Array of String objects-->
+    <li>{{.}}</li>    <!-- dot . is the model object itself -->
+    {{/each}}
+</ul>

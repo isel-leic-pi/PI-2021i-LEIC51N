@@ -1,0 +1,21 @@
+[
+    {
+        "username": "gamboa",
+        "artists": ["muse", "killers", "new order", "Franz Ferdinand", "Faith no more"]
+    },
+    {
+        "username": "laurinda",
+        "artists": [
+            "muse",
+            "killers",
+            "new order"
+        ]
+    },
+    {
+        "username": "baptista",
+        "artists": [
+            "police",
+            "james"
+        ]
+    }
+]
