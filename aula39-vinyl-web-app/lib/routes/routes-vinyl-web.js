@@ -8,6 +8,7 @@ const router = Router()
 module.exports = router
 
 router.get('/vinyl/users/:username/toptracks', handlerTopTracks)
+router.post('/vinyl/users/:username', handlerUserAddArtist)
 router.get('/vinyl/users/:username', handlerUserDetails)
 router.put('/vinyl/users/:username', handlerUserDetailsUpdate)
 router.get('/vinyl/users', handlerUsersList)
@@ -18,6 +19,14 @@ function handlerTopTracks (req, resp, next) {
     vinyl
         .getTopTracks(username, limit)
         .then(tracks => resp.json(tracks))
+        .catch(next)
+}
+
+function handlerUserAddArtist(req, resp, next) {
+    const username = req.params.username
+    vinyl
+        .addArtist(username, req.body.artist)
+        .then(() => resp.redirect('/vinyl/users/' + username))
         .catch(next)
 }
 

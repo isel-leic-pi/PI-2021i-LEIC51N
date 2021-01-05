@@ -1,6 +1,22 @@
 <h1>USER: {{username}}</h1>
+<p>Favourite artists:</p>
 <ul>
     {{#each artists}} <!-- artists is an Array of String objects-->
     <li>{{.}}</li>    <!-- dot . is the model object itself -->
     {{/each}}
 </ul>
+<form method="POST">
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Artist:</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="artist">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Tag:</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="tag">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Add</button>
+</form>
