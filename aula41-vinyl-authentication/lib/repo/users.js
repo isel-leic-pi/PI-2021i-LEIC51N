@@ -10,10 +10,10 @@ function getUsers() {
         .then(buffer => JSON.parse(buffer))
 }
 
-
 /**
  * @typedef User
  * @property {String} username
+ * @property {String} password
  * @property {Array} artists Array of strings with artists names.
  */
 /**

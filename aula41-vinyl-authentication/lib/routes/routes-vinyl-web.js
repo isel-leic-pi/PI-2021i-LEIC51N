@@ -7,11 +7,16 @@ const router = Router()
 
 module.exports = router
 
-router.get('/vinyl/users/:username/toptracks', handlerTopTracks)
-router.post('/vinyl/users/:username', handlerUserAddArtist)
-router.get('/vinyl/users/:username', handlerUserDetails)
-router.put('/vinyl/users/:username', handlerUserDetailsUpdate)
+router.get('/vinyl/users/:username/toptracks', isAuthenticated, handlerTopTracks)
+router.post('/vinyl/users/:username', isAuthenticated, handlerUserAddArtist)
+router.get('/vinyl/users/:username', isAuthenticated, handlerUserDetails)
+router.put('/vinyl/users/:username', isAuthenticated, handlerUserDetailsUpdate)
 router.get('/vinyl/users', handlerUsersList)
+
+function isAuthenticated(req, res, next) {
+    if(req.user) next()
+    else res.redirect('/vinyl/login')
+}
 
 function handlerTopTracks (req, resp, next) {
     const limit = req.query.limit | 3

@@ -1,6 +1,7 @@
 [
     {
         "username": "gamboa",
+        "password": "1234",
         "artists": [
             "muse",
             "killers",
@@ -13,6 +14,7 @@
     },
     {
         "username": "laurinda",
+        "password": "xxxx",
         "artists": [
             "muse",
             "killers",
@@ -21,6 +23,7 @@
     },
     {
         "username": "baptista",
+        "password": "1234",
         "artists": [
             "police",
             "james"
