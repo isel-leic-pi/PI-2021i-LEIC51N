@@ -1,0 +1,29 @@
+[
+    {
+        "username": "gamboa",
+        "artists": [
+            "muse",
+            "killers",
+            "new order",
+            "Franz Ferdinand",
+            "Faith no more",
+            "U2",
+            "Undefined"
+        ]
+    },
+    {
+        "username": "laurinda",
+        "artists": [
+            "muse",
+            "killers",
+            "new order"
+        ]
+    },
+    {
+        "username": "baptista",
+        "artists": [
+            "police",
+            "james"
+        ]
+    }
+]
