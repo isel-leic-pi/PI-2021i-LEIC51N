@@ -1,0 +1,32 @@
+[
+    {
+        "username": "gamboa",
+        "password": "1234",
+        "artists": [
+            "muse",
+            "killers",
+            "new order",
+            "Franz Ferdinand",
+            "Faith no more",
+            "U2",
+            "Undefined"
+        ]
+    },
+    {
+        "username": "laurinda",
+        "password": "xxxx",
+        "artists": [
+            "muse",
+            "killers",
+            "new order"
+        ]
+    },
+    {
+        "username": "baptista",
+        "password": "1234",
+        "artists": [
+            "police",
+            "james"
+        ]
+    }
+]
