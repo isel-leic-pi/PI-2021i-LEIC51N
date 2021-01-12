@@ -1,10 +1,13 @@
 <h1>USER: {{username}}</h1>
 <p>Favourite artists:</p>
-<ul>
+<table class="table">
     {{#each artists}} <!-- artists is an Array of String objects-->
-    <li>{{.}}</li>    <!-- dot . is the model object itself -->
+    <tr>
+      <td>{{.}}</td>
+      <td><button class="btn btn-danger">Delete</button></td>
+    </tr>
     {{/each}}
-</ul>
+</table>
 <form method="POST">
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">Artist:</label>
