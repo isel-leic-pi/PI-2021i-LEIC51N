@@ -54,11 +54,20 @@ function addArtist(username, artist) {
             const selected = arr.filter(user => user.username == username)
             if(selected.length == 0) throw new Error('There is no user ' + username)
             const user =  selected[0]
-            user.artists.push(artist)
+            user.artists[artist.hashCode()] = artist
             return fs.writeFile(usersPath, JSON.stringify(arr, null, 4))
         })
 }
 
+String.prototype.hashCode = function(){
+    var hash = 0
+    for (var i = 0; i < this.length; i++) {
+        var character = this.charCodeAt(i)
+        hash = ((hash<<5)-hash)+character
+        hash = hash & hash // Convert to 32bit integer
+    }
+    return hash
+}
 
 /**
  * Removes artist name from the array of artists of the User with 
@@ -74,10 +83,10 @@ function removeArtist(username, artist) {
         .then(buffer => {
             const arr = JSON.parse(buffer)
             const selected = arr.filter(user => user.username == username)
-            if(selected.length == 0) throw UserError(400, 'There is no user ' + username)
+            if(selected.length == 0) throw UserError(404, 'There is no user ' + username)
             const user =  selected[0]
             const index = user.artists.indexOf(artist)
-            if(index < 0) throw UserError(400, 'There is no artist ' + artist)
+            if(index < 0) throw UserError(404, 'There is no artist ' + artist)
             user.artists.splice(index, 1)
             return fs.writeFile(usersPath, JSON.stringify(arr, null, 4))
         })

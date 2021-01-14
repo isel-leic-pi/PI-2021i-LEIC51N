@@ -2,31 +2,31 @@
     {
         "username": "gamboa",
         "password": "1234",
-        "artists": [
-            "muse",
-            "killers",
-            "new order",
-            "Franz Ferdinand",
-            "Faith no more",
-            "U2",
-            "Undefined"
-        ]
+        "artists": {
+            "1111": "muse",
+            "1112": "killers",
+            "1113": "new order",
+            "1114": "Franz Ferdinand",
+            "1115": "Faith no more",
+            "1116": "Queen",
+            "1117": "U2"
+        }
     },
     {
         "username": "laurinda",
         "password": "xxxx",
-        "artists": [
-            "muse",
-            "killers",
-            "new order"
-        ]
+        "artists": {
+            "2222": "muse",
+            "2223": "killers",
+            "2224": "new order"
+        }
     },
     {
         "username": "baptista",
         "password": "1234",
-        "artists": [
-            "police",
-            "james"
-        ]
+        "artists": {
+            "3331": "police",
+            "3332": "james"
+        }
     }
 ]

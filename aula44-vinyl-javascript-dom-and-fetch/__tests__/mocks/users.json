@@ -1,17 +1,17 @@
 [
     {
         "username": "laurinda",
-        "artists": [
-            "muse",
-            "killers",
-            "new order"
-        ]
+        "artists": {
+            "1111": "muse",
+            "1112": "killers",
+            "1113": "new order"
+        }
     },
     {
         "username": "baptista",
-        "artists": [
-            "police",
-            "james"
-        ]
+        "artists": {
+            "3331": "police",
+            "3332": "james"
+        }
     }
 ]
