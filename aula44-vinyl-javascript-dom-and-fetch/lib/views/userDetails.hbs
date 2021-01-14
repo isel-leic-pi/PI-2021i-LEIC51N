@@ -1,9 +1,11 @@
 <h1>USER: {{username}}</h1>
 <p>Favourite artists:</p>
+<div class="messages">
+</div>
 <table class="table">
     {{#each artists}} <!-- artists is an Array of String objects-->
-    <tr>
-      <td>{{.}}</td>
+    <tr class="artistItem">
+      <td class="artistName" data-vinyl-id="{{id}}">{{name}}</td>
       <td><button class="btn btn-danger">Delete</button></td>
     </tr>
     {{/each}}

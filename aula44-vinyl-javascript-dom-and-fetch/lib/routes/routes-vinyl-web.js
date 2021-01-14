@@ -8,9 +8,9 @@ const router = Router()
 module.exports = router
 
 router.get('/vinyl/users/:username/toptracks', isAuthenticated, handlerTopTracks)
-router.post('/vinyl/users/:username', isAuthenticated, handlerUserAddArtist)
-router.get('/vinyl/users/:username', isAuthenticated, handlerUserDetails)
-router.put('/vinyl/users/:username', isAuthenticated, handlerUserDetailsUpdate)
+router.post('/vinyl/users/:username', handlerUserAddArtist)
+router.get('/vinyl/users/:username', handlerUserDetails)
+router.put('/vinyl/users/:username', handlerUserDetailsUpdate)
 router.get('/vinyl/users', handlerUsersList)
 
 function isAuthenticated(req, res, next) {
@@ -45,6 +45,14 @@ function handlerUserDetails (req, resp, next) {
                 err.status = 404
                 return next(err)
             }
+            const artists = []
+            for (const key in user.artists) {
+                if (Object.hasOwnProperty.call(user.artists, key)) {
+                    const val = user.artists[key]
+                    artists.push({ 'id': key, 'name': val})
+                }
+            }
+            user.artists = artists
             resp.render('userDetails', user)
         })
         .catch(next)

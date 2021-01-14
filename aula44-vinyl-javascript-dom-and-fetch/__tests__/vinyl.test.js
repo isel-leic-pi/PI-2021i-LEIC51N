@@ -16,7 +16,7 @@ test('Add artist to user', () => {
         .addArtist('laurinda', 'weeknd')
         .then(() => users.getUser('laurinda'))
         .then(lau => {
-            const weeknd = lau.artists.find(a => a === 'The Weeknd')
+            const weeknd = Object.values(lau.artists).find(a => a === 'The Weeknd')
             expect(weeknd).toBeTruthy()
         })
         .catch(err => {

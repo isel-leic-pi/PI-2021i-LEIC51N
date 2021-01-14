@@ -54,19 +54,25 @@ function addArtist(username, artist) {
             const selected = arr.filter(user => user.username == username)
             if(selected.length == 0) throw new Error('There is no user ' + username)
             const user =  selected[0]
-            user.artists[artist.hashCode()] = artist
+            user.artists[digest(artist)] = artist
             return fs.writeFile(usersPath, JSON.stringify(arr, null, 4))
         })
 }
 
-String.prototype.hashCode = function(){
+function digest(word){
     var hash = 0
-    for (var i = 0; i < this.length; i++) {
-        var character = this.charCodeAt(i)
+    for (var i = 0; i < word.length; i++) {
+        var character = word.charCodeAt(i)
         hash = ((hash<<5)-hash)+character
         hash = hash & hash // Convert to 32bit integer
     }
     return hash
+        .toString()    // convert number to string
+        .split('')     // convert string to array of characters
+        .map(Number)   // parse characters as numbers
+        .map(n => (n || 10) + 64)   // convert to char code, correcting for J
+        .map(c => String.fromCharCode(c))   // convert char codes to strings
+        .join('')     // join values together
 }
 
 /**
@@ -74,7 +80,7 @@ String.prototype.hashCode = function(){
  * given username.
  * 
  * @param {String} username 
- * @param {String} artist Name of the artist to remove
+ * @param {String} artist Id of the artist
  * @returns {Promise<Void>}
  */
 function removeArtist(username, artist) {
@@ -85,9 +91,8 @@ function removeArtist(username, artist) {
             const selected = arr.filter(user => user.username == username)
             if(selected.length == 0) throw UserError(404, 'There is no user ' + username)
             const user =  selected[0]
-            const index = user.artists.indexOf(artist)
-            if(index < 0) throw UserError(404, 'There is no artist ' + artist)
-            user.artists.splice(index, 1)
+            if(!user.artists[artist]) throw UserError(404, 'There is no artist ' + artist)
+            delete user.artists[artist]
             return fs.writeFile(usersPath, JSON.stringify(arr, null, 4))
         })
 }

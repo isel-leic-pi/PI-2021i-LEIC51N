@@ -25,8 +25,8 @@ test('Test users module getUser for absent username', () => {
 
 
 test('Test users module remove artist killers successfuly', () => users
-    .removeArtist('laurinda', 'killers')   // Remove Killers from Laurinda
+    .removeArtist('laurinda', '1112')   // Remove Killers from Laurinda
     .then(() => users.getUser('laurinda')) // Get laurinda again
-    .then(user => expect(user.artists).not.toContain('killers'))
+    .then(user => expect(Object.values(user.artists)).not.toContain('killers'))
     .catch(err => expect(err).toBeFalsy()) /* Assert that does not exist err*/)
 

@@ -33,7 +33,7 @@ test('Test users route to get laurinda', () => frisby
     .get('http://localhost:8000/api/vinyl/users/laurinda')
     .expect('status', 200)
     .expect('json', 'username', 'laurinda')
-    .expect('json', 'artists', ['muse', 'killers', 'new order'])
+    .expect('json', 'artists', {'1111':'muse','1112':'killers','1113':'new order'})
 )
 
 // eslint-disable-next-line no-undef
@@ -43,32 +43,32 @@ test('Test users route for unknown username', () => frisby
 )
 
 test('Test users route remove artist successfuly', () => frisby
-    .del('http://localhost:8000/api/vinyl/users/laurinda/artists/killers')
+    .del('http://localhost:8000/api/vinyl/users/laurinda/artists/1112')
     .expect('status', 200)
 )
 
 test('Test users route remove unkown artist', () => frisby
     .del('http://localhost:8000/api/vinyl/users/laurinda/artists/khkfhd')
-    .expect('status', 400)
+    .expect('status', 404)
 )
 
 const EXPECTED_USERS = [
     {
         'username': 'laurinda',
-        'artists': [
-            'muse', 
-            'killers', 
-            'new order'
-        ],
+        'artists': {
+            '1111': 'muse',
+            '1112': 'killers',
+            '1113': 'new order'
+        },
         'details': 'http://localhost:8000/vinyl/users/laurinda',
         'toptracks': 'http://localhost:8000/vinyl/users/laurinda/toptracks'
     },
     {
         'username': 'baptista',
-        'artists': [
-            'police',
-            'james'
-        ],
+        'artists': {
+            '3331': 'police',
+            '3332': 'james'
+        },
         'details': 'http://localhost:8000/vinyl/users/baptista',
         'toptracks': 'http://localhost:8000/vinyl/users/baptista/toptracks'
     }

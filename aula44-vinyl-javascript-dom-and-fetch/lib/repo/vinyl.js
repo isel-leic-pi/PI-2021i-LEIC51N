@@ -13,8 +13,9 @@ const users = require('./users').init()
 function getTopTracks(username, limit) {
     return users
         .getUser(username)                                                   // Promise<User>
-        .then(user => user.artists)                                          // Promise<Array<Artist>
-        .then(artists => artists.map(artist => lastfm.getTopTracks(artist))) // Promise<Array<Promise<Array<String>>>>
+        .then(user => Object.values(user.artists))                                          // Promise<Array<Artist>
+        .then(artists => 
+            artists.map(artist => lastfm.getTopTracks(artist))) // Promise<Array<Promise<Array<String>>>>
         .then(arr => Promise.all(arr))                                       // Promise<Array<Array<String>>>
         .then(tracks => tracks.map(arr => arr.slice(0, limit)))              // Promise<Array<Array<String>>>
         .then(tracks => tracks.flat())                                       // Promise<Array<String>>>
